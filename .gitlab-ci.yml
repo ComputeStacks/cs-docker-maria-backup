@@ -1,0 +1,75 @@
+# will never run on a git push or merge request event.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
+    
+variables:
+    FULL_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA-$CI_PIPELINE_ID
+    DH_IMAGE: cmptstks/mariadb-backup
+
+default:
+  tags:
+    - shell
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+    - echo "$DH_PW" | docker login -u $DH_USER --password-stdin
+  after_script:
+    - docker logout $CI_REGISTRY
+    - docker logout
+
+stages:
+  - build
+  - deploy
+    
+build:
+  stage: build
+  script:
+    - "docker build --no-cache -t $FULL_IMAGE-103 10.3/"
+    - "docker build --no-cache -t $FULL_IMAGE-104 10.4/"
+    - "docker build --no-cache -t $FULL_IMAGE-105 10.5/"
+    - "docker build --no-cache -t $FULL_IMAGE-106 10.6/"
+    - "docker build --no-cache -t $FULL_IMAGE-107 10.7/"
+    - "docker build --no-cache -t $FULL_IMAGE-108 10.8/"
+deploy:
+  stage: deploy
+  script:
+    - "docker tag $FULL_IMAGE-103 $CI_REGISTRY_IMAGE:10.3"
+    - "docker tag $FULL_IMAGE-104 $CI_REGISTRY_IMAGE:10.4"
+    - "docker tag $FULL_IMAGE-105 $CI_REGISTRY_IMAGE:10.5"
+    - "docker tag $FULL_IMAGE-106 $CI_REGISTRY_IMAGE:10.6"
+    - "docker tag $FULL_IMAGE-107 $CI_REGISTRY_IMAGE:10.7"
+    - "docker tag $FULL_IMAGE-108 $CI_REGISTRY_IMAGE:10.8"
+    - "docker tag $FULL_IMAGE-108 $CI_REGISTRY_IMAGE:latest"
+    - "docker tag $FULL_IMAGE-103 $DH_IMAGE:10.3"
+    - "docker tag $FULL_IMAGE-104 $DH_IMAGE:10.4"
+    - "docker tag $FULL_IMAGE-105 $DH_IMAGE:10.5"
+    - "docker tag $FULL_IMAGE-106 $DH_IMAGE:10.6"
+    - "docker tag $FULL_IMAGE-107 $DH_IMAGE:10.7"
+    - "docker tag $FULL_IMAGE-108 $DH_IMAGE:10.8"
+    - "docker tag $FULL_IMAGE-108 $DH_IMAGE:latest"
+    - "docker push $FULL_IMAGE-103"
+    - "docker push $FULL_IMAGE-103"
+    - "docker push $FULL_IMAGE-103"
+    - "docker push $FULL_IMAGE-104"
+    - "docker push $FULL_IMAGE-105"
+    - "docker push $FULL_IMAGE-106"
+    - "docker push $FULL_IMAGE-107"
+    - "docker push $FULL_IMAGE-108"
+    - "docker push $CI_REGISTRY_IMAGE:10.3"
+    - "docker push $CI_REGISTRY_IMAGE:10.4"
+    - "docker push $CI_REGISTRY_IMAGE:10.5"
+    - "docker push $CI_REGISTRY_IMAGE:10.6"
+    - "docker push $CI_REGISTRY_IMAGE:10.7"
+    - "docker push $CI_REGISTRY_IMAGE:10.8"
+    - "docker push $CI_REGISTRY_IMAGE:latest"
+    - "docker push $DH_IMAGE:10.3"
+    - "docker push $DH_IMAGE:10.4"
+    - "docker push $DH_IMAGE:10.5"
+    - "docker push $DH_IMAGE:10.6"
+    - "docker push $DH_IMAGE:10.7"
+    - "docker push $DH_IMAGE:10.8"
+    - "docker push $DH_IMAGE:latest"
