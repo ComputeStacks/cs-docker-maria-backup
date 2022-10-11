@@ -1,6 +1,10 @@
 FROM ghcr.io/computestacks/cs-docker-base:ubuntu-focal
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
+LABEL org.opencontainers.image.authors="https://computestacks.com"
+LABEL org.opencontainers.image.source="https://github.com/ComputeStacks/cs-docker-maria-backup/tree/main/10.7"
+LABEL org.opencontainers.image.url="https://github.com/ComputeStacks/cs-docker-maria-backup/tree/main/10.7"
+LABEL org.opencontainers.image.title="Maria Backup 10.7"
 
 RUN set -ex; \
     \
