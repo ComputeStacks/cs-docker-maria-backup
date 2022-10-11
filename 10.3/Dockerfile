@@ -1,4 +1,4 @@
-FROM cmptstks/baseimage:latest
+FROM ghcr.io/computestacks/cs-docker-base:ubuntu-focal
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
