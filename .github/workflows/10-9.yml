@@ -54,6 +54,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             cmptstks/mariadb-backup:10.9
+            cmptstks/mariadb-backup:latest
             ghcr.io/${{ env.GH_REPO }}:10.9
+            ghcr.io/${{ env.GH_REPO }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
