@@ -1,8 +1,6 @@
 name: "MariaDB 10.9"
 
 on:
-  schedule:
-    - cron: '35 6 * * 3'
   push:
     branches: [ "main" ]
     paths:

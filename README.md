@@ -1,5 +1,7 @@
 # MariaDB Backup Utility
 
+**No Longer Maintained. Current versions of ComputeStacks rely on the included mariabackup within the existing mariadb container**.
+
 See: https://mariadb.com/kb/en/library/mariabackup-overview/ 
 
 This image, unlike other similar container images, is designed to startup and run detached (using runinit) and have the mariadb volumes mounted to `/data`. 
